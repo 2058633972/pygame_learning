@@ -11,12 +11,15 @@ screen = pygame.display.set_mode(size,pygame.RESIZABLE)#窗口大小可调
 #screen = pygame.display.set_mode(size,pygame.FULLSCREEN)#全屏显示
 icon=pygame.image.load("balls.jpg")
 pygame.display.set_icon(icon)
-pygame.display.set_caption("图标设置")
+pygame.display.set_caption("色彩型")
 ball = pygame.image.load("ball.gif")
 ballrect = ball.get_rect()
 fps = 300
 fclock = pygame.time.Clock()
 still=False #用于控制小球运动或静止
+bgcolor=pygame.Color("black")
+def RGBChannel(a):
+    return 0 if a<0 else (255 if a>255 else int(a))
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -56,7 +59,10 @@ while True:
         speed[1] = -speed[1]
         if ballrect.bottom>height and ballrect.bottom+speed[1]>ballrect.bottom:
             speed[1]=-speed[1]
-    screen.fill(black)
+    bgcolor.r=RGBChannel(ballrect.left*255/width)
+    bgcolor.g=RGBChannel(ballrect.top*255/height)
+    bgcolor.b=RGBChannel(min(speed[0],speed[1])*255/max(speed[0],speed[1],1))
+    screen.fill(bgcolor)
     screen.blit(ball, ballrect)
     pygame.display.update()
     fclock.tick(fps)
