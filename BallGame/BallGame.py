@@ -5,9 +5,11 @@ size = width, height = 600, 400
 speed = [1, 1]
 black = 0, 0, 0
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("壁球小游戏展示型")
-ball = pygame.image.load("BallGame/ball.gif")
+pygame.display.set_caption("壁球小游戏节奏型")
+ball = pygame.image.load("ball.gif")
 ballrect = ball.get_rect()
+fps=300
+fclock=pygame.time.Clock()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -20,3 +22,4 @@ while True:
     screen.fill(black)
     screen.blit(ball, ballrect)
     pygame.display.update()
+    fclock.tick(fps)
