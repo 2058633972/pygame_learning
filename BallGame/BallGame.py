@@ -9,7 +9,9 @@ black = 0, 0, 0
 screen = pygame.display.set_mode(size,pygame.RESIZABLE)#窗口大小可调
 #screen = pygame.display.set_mode(size,pygame.NOFRAME)#无边框显示
 #screen = pygame.display.set_mode(size,pygame.FULLSCREEN)#全屏显示
-pygame.display.set_caption("屏幕可伸缩型")
+icon=pygame.image.load("balls.jpg")
+pygame.display.set_icon(icon)
+pygame.display.set_caption("图标设置")
 ball = pygame.image.load("ball.gif")
 ballrect = ball.get_rect()
 fps = 300
