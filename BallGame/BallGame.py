@@ -34,7 +34,8 @@ while True:
         elif event.type==pygame.VIDEORESIZE:
             size=width,height=event.size[0],event.size[1]
             screen=pygame.display.set_mode(size,pygame.RESIZABLE)#感知窗口的变化并刷新
-    ballrect = ballrect.move(speed)
+    if pygame.display.get_active():#窗口没有最小化时小球运动，否则暂停
+        ballrect = ballrect.move(speed)
     if ballrect.left < 0 or ballrect.right > width:
         speed[0] = -speed[0]
     if ballrect.top < 0 or ballrect.bottom > height:
