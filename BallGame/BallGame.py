@@ -16,6 +16,7 @@ ball = pygame.image.load("ball.gif")
 ballrect = ball.get_rect()
 fps = 300
 fclock = pygame.time.Clock()
+still=False #用于控制小球运动或静止
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -34,12 +35,27 @@ while True:
         elif event.type==pygame.VIDEORESIZE:
             size=width,height=event.size[0],event.size[1]
             screen=pygame.display.set_mode(size,pygame.RESIZABLE)#感知窗口的变化并刷新
-    if pygame.display.get_active():#窗口没有最小化时小球运动，否则暂停
+        elif event.type==pygame.MOUSEBUTTONDOWN:
+            if event.button==1:  #数字1为鼠标左键的编号
+                still=True   #still为True代表停止移动即鼠标左键按下时停止移动
+        elif event.type==pygame.MOUSEBUTTONUP:
+            still=False
+            if event.button==1:
+                ballrect=ballrect.move(event.pos[0]-ballrect.left,event.pos[1]-ballrect.top)
+        elif event.type==pygame.MOUSEMOTION:
+            if event.buttons[0]==1:
+                ballrect=ballrect.move(event.pos[0]-ballrect.left,event.pos[1]-ballrect.top)
+
+    if pygame.display.get_active() and not still:#窗口没有最小化时小球运动，否则暂停
         ballrect = ballrect.move(speed)
     if ballrect.left < 0 or ballrect.right > width:
         speed[0] = -speed[0]
+        if ballrect.right>width and ballrect.right+speed[0]>ballrect.right:
+            speed[0]=-speed[0]
     if ballrect.top < 0 or ballrect.bottom > height:
         speed[1] = -speed[1]
+        if ballrect.bottom>height and ballrect.bottom+speed[1]>ballrect.bottom:
+            speed[1]=-speed[1]
     screen.fill(black)
     screen.blit(ball, ballrect)
     pygame.display.update()
