@@ -1,11 +1,15 @@
 #Author:Haicheng Qin
 import pygame,sys
 pygame.init()
-size = width, height = 600, 400
+#vinfo=pygame.display.Info()
+#size = width, height = vinfo.current_w,vinfo.current_h #sized的width，height为整个窗口的宽和高
+size=width,height=600,400
 speed = [1, 1]
 black = 0, 0, 0
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption("操控型")
+screen = pygame.display.set_mode(size,pygame.RESIZABLE)#窗口大小可调
+#screen = pygame.display.set_mode(size,pygame.NOFRAME)#无边框显示
+#screen = pygame.display.set_mode(size,pygame.FULLSCREEN)#全屏显示
+pygame.display.set_caption("屏幕可伸缩型")
 ball = pygame.image.load("ball.gif")
 ballrect = ball.get_rect()
 fps = 300
@@ -23,6 +27,11 @@ while True:
                 speed[1] = speed[1] if speed[1] == 0 else (abs(speed[1])-1)*int(speed[1]/abs(speed[1]))
             elif event.key == pygame.K_UP:
                 speed[1] = speed[1]+1 if speed[1] > 0 else speed[1]-1
+            elif event.key==pygame.K_ESCAPE:
+                sys.exit()
+        elif event.type==pygame.VIDEORESIZE:
+            size=width,height=event.size[0],event.size[1]
+            screen=pygame.display.set_mode(size,pygame.RESIZABLE)#感知窗口的变化并刷新
     ballrect = ballrect.move(speed)
     if ballrect.left < 0 or ballrect.right > width:
         speed[0] = -speed[0]
